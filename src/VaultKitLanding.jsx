@@ -37,21 +37,43 @@ function Chip({ children }) {
 
 function AuditRow({ k, v, color }) {
   const cls =
-    color === "emerald" ? "text-emerald-600" :
-    color === "amber"   ? "text-amber-600"   :
-    color === "red"     ? "text-red-600"     :
-    "text-zinc-700"
+    color === "emerald"
+      ? "text-emerald-600"
+      : color === "amber"
+        ? "text-amber-600"
+        : color === "red"
+          ? "text-red-600"
+          : "text-zinc-700"
+
   return (
-    <div className="flex justify-between gap-4 py-1.5 border-b border-zinc-100 last:border-0 text-sm">
-      <span className="font-mono text-zinc-400">{k}</span>
-      <span className={`font-mono ${cls}`}>{v}</span>
+    <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 py-1.5 border-b border-zinc-100 last:border-0 text-sm">
+      <span className="font-mono text-zinc-400 break-all">{k}</span>
+      <span className={`font-mono break-all ${cls}`}>{v}</span>
     </div>
   )
 }
 
 function CodeBlock({ children, className = "" }) {
   return (
-    <pre className={`bg-zinc-50 border border-zinc-200 rounded-md px-3 py-2.5 text-sm font-mono text-zinc-700 leading-relaxed overflow-x-auto whitespace-pre ${className}`}>
+    <pre
+      className={`
+        max-w-full
+        overflow-x-auto
+        whitespace-pre
+        text-left
+        bg-zinc-50
+        border
+        border-zinc-200
+        rounded-md
+        px-3
+        py-2.5
+        text-xs sm:text-sm
+        font-mono
+        text-zinc-700
+        leading-relaxed
+        ${className}
+      `}
+    >
       {children}
     </pre>
   )
@@ -70,11 +92,28 @@ function Feature({ icon, title, desc }) {
 function Stat({ value, label }) {
   return (
     <div className="text-center">
-      <div className="text-5xl font-bold text-zinc-900 mb-2 tracking-tight">{value}</div>
-      <div className="text-sm text-zinc-500 leading-relaxed">{label}</div>
+      <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-zinc-900 mb-2 tracking-tight">
+        {value}
+      </div>
+
+      <div className="text-sm text-zinc-500 leading-relaxed max-w-[220px] mx-auto">
+        {label}
+      </div>
     </div>
   )
 }
+
+const revokePayload = `{
+  "status": "denied",
+  "reason": "Grant has been revoked.",
+  "revoked_by": "security@company.com"
+}`
+
+const denyPayload = `{
+  "status": "denied",
+  "policy_id": "block_cross_region",
+  "reason": "Cross-region data access is not permitted."
+}`
 
 // ─── Flow step bodies as render functions ─────────────────────────────────────
 
@@ -155,7 +194,15 @@ const FLOWS = {
         body: () => (
           <>
             <p className="text-sm text-zinc-500 mb-2 flex items-center gap-1.5">⏳ Agent blocked. Finance manager notified for review.</p>
-            <CodeBlock><span className="text-zinc-400 italic"># Approve via CLI{"\n"}</span>vkit approval:approve req_f1690364...fc12</CodeBlock>
+            <div className="space-y-2">
+              <p className="text-sm text-zinc-500">
+                Approve via CLI:
+              </p>
+
+              <InlineCommand>
+                vkit approval:approve req_f1690364...fc12
+              </InlineCommand>
+            </div>
           </>
         ),
       },
@@ -212,7 +259,7 @@ const FLOWS = {
         body: () => (
           <>
             <CodeBlock className="bg-red-50 border-red-100 text-red-600">
-              {"{ status: \"denied\",\n  policy_id: \"block_cross_region\",\n  reason: \"Cross-region data access is not permitted.\" }"}
+              {denyPayload}
             </CodeBlock>
             <p className="text-sm text-zinc-400 mt-2 flex items-center gap-1.5">🚫 Zero bytes of EU customer data left the system.</p>
           </>
@@ -247,11 +294,15 @@ const FLOWS = {
       {
         type: "deny", badge: "Kill Switch", actor: "security@company.com", time: "11:32:14.007",
         body: () => (
-          <CodeBlock>
-            <span className="text-zinc-400 italic"># Revoke immediately{"\n"}</span>
-            vkit grant:revoke --grant grt_9f2a...e41c{"\n"}
-            {"  "}--reason <span className="text-emerald-600">"Suspicious access pattern"</span>
-          </CodeBlock>
+          <div className="space-y-2">
+            <p className="text-sm text-zinc-500">
+              Revoke instantly:
+            </p>
+
+            <InlineCommand>
+              vkit grant:revoke --grant grt_9f2a...e41c
+            </InlineCommand>
+          </div>
         ),
       },
       {
@@ -259,7 +310,7 @@ const FLOWS = {
         body: () => (
           <>
             <CodeBlock className="bg-red-50 border-red-100 text-red-600">
-              {"{ status: \"denied\",\n  reason: \"Grant has been revoked.\",\n  revoked_by: \"security@company.com\" }"}
+              {revokePayload}
             </CodeBlock>
             <p className="text-sm text-zinc-400 mt-2 flex items-center gap-1.5">⚡ Access terminated instantly. No database credential rotation required.</p>
           </>
@@ -306,22 +357,57 @@ const CARD_BORDER = {
   audit:    "border-zinc-200",
 }
 
+function InlineCommand({ children }) {
+  return (
+    <code className="
+      font-mono
+      text-xs
+      sm:text-sm
+      bg-zinc-100
+      border
+      border-zinc-200
+      rounded-md
+      px-2
+      py-1
+      text-zinc-700
+      break-all
+    ">
+      {children}
+    </code>
+  )
+}
+
 function GovernanceFlow() {
   const [active, setActive] = useState("mask")
   const flow = FLOWS[active]
 
   return (
-    <div>
-      <div className="flex border-b border-zinc-200 mb-8 overflow-x-auto">
+    <div className="min-w-0 overflow-hidden">
+      <div className="flex gap-2 sm:gap-0 sm:border-b border-zinc-200 mb-8 overflow-x-auto scrollbar-hide pb-2 sm:pb-0">
         {Object.entries(FLOWS).map(([key, { label }]) => (
           <button
             key={key}
             onClick={() => setActive(key)}
-            className={`px-5 py-3 text-sm font-mono whitespace-nowrap transition-colors border-b-2 mb-[-1px] bg-transparent cursor-pointer ${
-              active === key
-                ? "text-zinc-900 border-zinc-900 font-medium"
-                : "text-zinc-400 border-transparent hover:text-zinc-600"
-            }`}
+            className={`
+              px-4 sm:px-5
+              py-2.5 sm:py-3
+              text-xs sm:text-sm
+              font-mono
+              whitespace-nowrap
+              transition-colors
+              border sm:border-0
+              sm:border-b-2
+              rounded-full sm:rounded-none
+              mb-[-1px]
+              bg-transparent
+              cursor-pointer
+              flex-shrink-0
+              ${
+                active === key
+                  ? "text-zinc-900 border-zinc-900 font-medium bg-zinc-100 sm:bg-transparent"
+                  : "text-zinc-400 border-zinc-200 sm:border-transparent hover:text-zinc-600"
+              }
+            `}
           >
             {label}
           </button>
@@ -331,23 +417,46 @@ function GovernanceFlow() {
       <div className="flex flex-col">
         {flow.steps.map((step, i) => {
           const Body = step.body
+
           return (
-            <div key={i} className="flex gap-4 items-stretch">
-              <div className="flex flex-col items-center w-8 flex-shrink-0">
-                <div className={`w-3 h-3 rounded-full border-2 flex-shrink-0 mt-5 bg-white ${DOT[step.type]}`} />
-                {i < flow.steps.length - 1 && <div className="w-px flex-1 bg-zinc-100 my-1" />}
+            <div
+              key={i}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch"
+            >
+              <div className="hidden sm:flex flex-col items-center w-8 flex-shrink-0">
+                <div
+                  className={`w-3 h-3 rounded-full border-2 flex-shrink-0 mt-5 bg-white ${DOT[step.type]}`}
+                />
+
+                {i < flow.steps.length - 1 && (
+                  <div className="w-px flex-1 bg-zinc-100 my-1" />
+                )}
               </div>
-              <div className={`flex-1 border rounded-lg bg-white mb-3 overflow-hidden ${CARD_BORDER[step.type]}`}>
-                <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-100">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs text-zinc-400">{step.time}</span>
-                    <span className={`font-mono text-xs font-semibold px-2 py-0.5 rounded border uppercase tracking-wider ${BADGE[step.type]}`}>
+
+              <div
+                className={`flex-1 min-w-0 border rounded-lg bg-white mb-3 overflow-hidden ${CARD_BORDER[step.type]}`}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-4 py-3 border-b border-zinc-100">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-mono text-xs text-zinc-400">
+                      {step.time}
+                    </span>
+
+                    <span
+                      className={`font-mono text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded border uppercase tracking-wider ${BADGE[step.type]}`}
+                    >
                       {step.badge}
                     </span>
                   </div>
-                  <span className="font-mono text-xs text-zinc-400 hidden sm:block">{step.actor}</span>
+
+                  <span className="font-mono text-xs text-zinc-400 break-all">
+                    {step.actor}
+                  </span>
                 </div>
-                <div className="p-4"><Body /></div>
+
+                <div className="p-3 sm:p-4 min-w-0">
+                  <Body />
+                </div>
               </div>
             </div>
           )
@@ -414,7 +523,7 @@ export default function VaultKitLanding() {
       </header>
 
       {/* HERO */}
-      <section className="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 pb-16 text-center overflow-hidden">
         <div className="inline-flex items-start gap-3 bg-red-50 border border-red-100 rounded-lg px-4 py-3 mb-10 text-left max-w-2xl">
           <div className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0 mt-1.5 animate-pulse" />
           <p className="text-sm text-zinc-600 leading-relaxed">
@@ -422,11 +531,11 @@ export default function VaultKitLanding() {
           </p>
         </div>
 
-        <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-zinc-900 leading-tight mb-6">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-zinc-900 leading-tight mb-6">
           Your AI agents need<br />a governance layer.
         </h1>
 
-        <p className="text-xl text-zinc-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-lg sm:text-xl text-zinc-500 max-w-2xl mx-auto mb-10 leading-relaxed">
           VaultKit sits between your agents and production data — enforcing field-level masking, approval workflows, and signed audit trails without changing how agents query data.
         </p>
 
@@ -442,7 +551,7 @@ export default function VaultKitLanding() {
 
       {/* STATS */}
       <section className="border-t border-b border-zinc-100 py-14">
-        <div className="max-w-3xl mx-auto px-6 grid grid-cols-3 gap-8">
+        <div className="max-w-3xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-3 gap-10">
           <Stat value="9s" label="Time for an unchecked agent to delete a production DB" />
           <Stat value="<2ms" label="VaultKit grant revocation response time" />
           <Stat value="0" label="Database credentials exposed to agents using VaultKit" />
@@ -450,10 +559,10 @@ export default function VaultKitLanding() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how" className="max-w-4xl mx-auto px-6 py-16">
+      <section id="how" className="max-w-4xl mx-auto px-4 sm:px-6 py-16 overflow-hidden">
         <div className="text-center mb-10">
           <p className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-3">How VaultKit works</p>
-          <h2 className="text-4xl font-bold tracking-tight text-zinc-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900 mb-4">
             Every request evaluated,<br />enforced, and signed.
           </h2>
           <p className="text-lg text-zinc-500 max-w-xl mx-auto leading-relaxed">
@@ -470,7 +579,7 @@ export default function VaultKitLanding() {
             <p className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-3">Core capabilities</p>
             <h2 className="text-4xl font-bold tracking-tight text-zinc-900">Everything enforcement requires.</h2>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <Feature icon="🔒" title="Field-Level Masking" desc="Mask PII, financial, and sensitive fields at execution. Agents analyze patterns without touching raw data." />
             <Feature icon="✋" title="Approval Workflows" desc="Require human sign-off before sensitive data is returned. Gates that actually block — not just log." />
             <Feature icon="📋" title="Signed Audit Trail" desc="Every request logged with agent identity, policy decision, and a cryptographic signature. Tamper-proof by design." />
@@ -487,7 +596,7 @@ export default function VaultKitLanding() {
           <p className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-3">Who it's for</p>
           <h2 className="text-4xl font-bold tracking-tight text-zinc-900">Built for teams that can't afford surprises.</h2>
         </div>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="border border-zinc-200 rounded-xl p-8">
             <h3 className="font-semibold text-zinc-900 mb-5 text-lg">Good fit</h3>
             <ul className="space-y-3 text-zinc-500">
@@ -527,7 +636,7 @@ export default function VaultKitLanding() {
 
       {/* FOOTER */}
       <footer className="border-t border-zinc-100 py-8">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <VaultKitLogo size={18} />
             <span className="text-sm text-zinc-400">VaultKit · founders@vaultkit.io</span>
