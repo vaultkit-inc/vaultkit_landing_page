@@ -1,40 +1,25 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 64 64"
-  aria-label="VaultKit"
->
-  <!-- Tight hexagon (less padding) -->
-  <path
-    d="M32 6
-       L52 18
-       V46
-       L32 58
-       L12 46
-       V18
-       Z"
-    fill="#0f172a"
-  />
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark rounded square background -->
+  <rect width="32" height="32" rx="7" fill="#0a0a0a"/>
 
-  <!-- Bolder shield -->
+  <!-- Outer V chevron -->
   <path
-    d="M32 20
-       C27 22 24 22 24 22
-       V31
-       C24 37 29 42 32 44
-       C35 42 40 37 40 31
-       V22
-       C40 22 37 22 32 20
-       Z"
-    fill="#ffffff"
-  />
-
-  <!-- Thicker check -->
-  <path
-    d="M28 31l3 3 6-6"
-    fill="none"
-    stroke="#0f172a"
-    stroke-width="4"
+    d="M6 7 L16 25 L26 7"
+    stroke="#fafaf7"
+    stroke-width="4.5"
     stroke-linecap="round"
     stroke-linejoin="round"
   />
+
+  <!-- Inner V chevron -->
+  <path
+    d="M11 7 L16 16 L21 7"
+    stroke="#fafaf7"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Sealed apex dot -->
+  <circle cx="16" cy="25" r="2.5" fill="#fafaf7"/>
 </svg>
