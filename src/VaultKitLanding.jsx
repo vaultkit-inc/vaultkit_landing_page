@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import VaultKitLogo from "@/components/VaultKitLogo"
+import { Lock, UserCheck, FileCheck, Zap, ScanSearch, GitBranch } from 'lucide-react'
 
 const FORMSPREE_URL = "https://formspree.io/f/xdanjdoy"
 
@@ -82,7 +83,7 @@ function CodeBlock({ children, className = "" }) {
 function Feature({ icon, title, desc }) {
   return (
     <div className="border border-zinc-100 rounded-xl p-6 hover:border-zinc-300 transition-colors">
-      <div className="text-2xl mb-4">{icon}</div>
+      <div>{icon}</div>
       <h3 className="font-semibold text-zinc-900 mb-2">{title}</h3>
       <p className="text-zinc-500 leading-relaxed">{desc}</p>
     </div>
@@ -572,6 +573,86 @@ export default function VaultKitLanding() {
         <GovernanceFlow />
       </section>
 
+      {/* WHY NOT IAM/RBAC */}
+      <section className="max-w-5xl mx-auto px-6 py-16">
+        <div className="text-center mb-12">
+          <p className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-3">The gap</p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900 mb-4">
+            IAM and RBAC answer whether.<br />
+            They were never built to answer what, when, or why.
+          </h2>
+          <p className="text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed">
+            Your existing controls are load-bearing — don't replace them. They answer the question access controls were built to answer: does this identity have permission? Agents surface a different set of problems that IAM was never designed to see.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="border border-zinc-100 rounded-xl p-8 bg-zinc-50">
+            <p className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-4">What IAM, RBAC, and DB permissions handle</p>
+            <ul className="space-y-3 text-sm text-zinc-600 leading-relaxed mb-6">
+              <li className="flex items-start gap-3">
+                <span className="text-zinc-300 mt-0.5 flex-shrink-0">—</span>
+                Authenticating human identities and service accounts
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-zinc-300 mt-0.5 flex-shrink-0">—</span>
+                Granting or denying table-level database access by role
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-zinc-300 mt-0.5 flex-shrink-0">—</span>
+                Controlling which services connect to which resources
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-zinc-300 mt-0.5 flex-shrink-0">—</span>
+                Logging connection events in cloud and database audit trails
+              </li>
+            </ul>
+            <p className="text-sm text-zinc-400 border-t border-zinc-200 pt-5 leading-relaxed">
+              VaultKit doesn't replace these controls. It operates at the layer they were never designed to reach — query execution, field visibility, and the data that actually leaves your system.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <p className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-4">Five questions they were never designed to answer</p>
+
+            <div className="border border-zinc-200 rounded-lg p-4">
+              <p className="font-semibold text-zinc-900 text-sm mb-1.5">Which fields should this agent actually see?</p>
+              <p className="text-sm text-zinc-500 leading-relaxed">
+                Table grants are all-or-nothing. An agent with <Chip>SELECT</Chip> on <Chip>customers</Chip> reads every column — including the <Chip>ssn</Chip> field a DBA added last week. IAM has no concept of field-level visibility.
+              </p>
+            </div>
+
+            <div className="border border-zinc-200 rounded-lg p-4">
+              <p className="font-semibold text-zinc-900 text-sm mb-1.5">Does this specific query need human sign-off before it executes?</p>
+              <p className="text-sm text-zinc-500 leading-relaxed">
+                IAM grants are persistent, not per-request. There's no mechanism to require approval on a specific query — only blanket allow or deny at the role level.
+              </p>
+            </div>
+
+            <div className="border border-zinc-200 rounded-lg p-4">
+              <p className="font-semibold text-zinc-900 text-sm mb-1.5">Which agent made this request, and for what purpose?</p>
+              <p className="text-sm text-zinc-500 leading-relaxed">
+                IAM sees a service account. It doesn't know which agent used it, what task triggered the query, or whether the purpose aligns with the data being accessed.
+              </p>
+            </div>
+
+            <div className="border border-zinc-200 rounded-lg p-4">
+              <p className="font-semibold text-zinc-900 text-sm mb-1.5">Did a new column just expose sensitive data to every existing role?</p>
+              <p className="text-sm text-zinc-500 leading-relaxed">
+                Schema changes are invisible to access controls. A new column is immediately readable by any role with existing grants — with no alert, no block, and no policy update required.
+              </p>
+            </div>
+
+            <div className="border border-zinc-200 rounded-lg p-4">
+              <p className="font-semibold text-zinc-900 text-sm mb-1.5">Can you prove exactly what data left the system?</p>
+              <p className="text-sm text-zinc-500 leading-relaxed">
+                DB logs capture connection events, not query results. They're mutable, carry no cryptographic proof, and record nothing about what was returned, masked, or approved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FEATURES */}
       <section id="features" className="bg-zinc-50 py-16">
         <div className="max-w-5xl mx-auto px-6">
@@ -580,12 +661,12 @@ export default function VaultKitLanding() {
             <h2 className="text-4xl font-bold tracking-tight text-zinc-900">Everything enforcement requires.</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <Feature icon="🔒" title="Field-Level Masking" desc="Mask PII, financial, and sensitive fields at execution. Agents analyze patterns without touching raw data." />
-            <Feature icon="✋" title="Approval Workflows" desc="Require human sign-off before sensitive data is returned. Gates that actually block — not just log." />
-            <Feature icon="📋" title="Signed Audit Trail" desc="Every request logged with agent identity, policy decision, and a cryptographic signature. Tamper-proof by design." />
-            <Feature icon="⚡" title="Grant Revocation" desc="Kill access in under 2ms with a single command. No credential rotation, no pipeline changes." />
-            <Feature icon="🔍" title="Schema Drift Detection" desc="New sensitive column in production? VaultKit catches it immediately. Access blocked until policy is updated." />
-            <Feature icon="📁" title="Policy-as-Code" desc="Policies live in YAML, versioned in Git. Deploy in seconds. Full history, review process, instant rollback." />
+            <Feature icon={<Lock size={32} strokeWidth={1.25} className="text-zinc-400 mb-4" />} title="Field-Level Masking" desc="Mask PII, financial, and sensitive fields at execution. Agents analyze patterns without touching raw data." />
+            <Feature icon={<UserCheck size={32} strokeWidth={1.25} className="text-zinc-400 mb-4" />} title="Approval Workflows" desc="Require human sign-off before sensitive data is returned. Gates that actually block — not just log." />
+            <Feature icon={<FileCheck size={32} strokeWidth={1.25} className="text-zinc-400 mb-4" />} title="Signed Audit Trail" desc="Every request logged with agent identity, policy decision, and a cryptographic signature. Tamper-proof by design." />
+            <Feature icon={<Zap size={32} strokeWidth={1.25} className="text-zinc-400 mb-4" />} title="Grant Revocation" desc="Kill access in under 2ms with a single command. No credential rotation, no pipeline changes." />
+            <Feature icon={<ScanSearch size={32} strokeWidth={1.25} className="text-zinc-400 mb-4" />} title="Schema Drift Detection" desc="New sensitive column in production? VaultKit catches it immediately. Access blocked until policy is updated." />
+            <Feature icon={<GitBranch size={32} strokeWidth={1.25} className="text-zinc-400 mb-4" />} title="Policy-as-Code" desc="Policies live in YAML, versioned in Git. Deploy in seconds. Full history, review process, instant rollback." />
           </div>
         </div>
       </section>
