@@ -1,16 +1,37 @@
-# React + Vite
+# vaultkit.io
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The VaultKit landing page. Next.js (App Router), TypeScript and Tailwind CSS v4.
+The page is prerendered to static HTML at build time; only the design partner
+CTAs and dialog hydrate. Deployed on Vercel.
 
-Currently, two official plugins are available:
+## Develop
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+cp .env.example .env.local   # then fill in the values you need
+npm run dev
+```
 
-## React Compiler
+| Command | What it does |
+| --- | --- |
+| `npm run build` | Production build (prerenders `/`, the OG image and the Twitter image) |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Vitest component and route tests |
+| `npm run icons` | Regenerates the favicon and touch icon from `docs/redesign/logo/` |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Where things live
 
-## Expanding the ESLint configuration
+- `content/` — all copy. Edit text here, not in components.
+- `lib/config.ts` — external links from env. An unset link hides its CTA.
+- `app/globals.css` — design tokens (colors, type scale, radii, spacing).
+- `components/ui/` — primitives: Button, Container, Section, Card, Badge, CodeBlock, Logo, Field.
+- `components/landing/` — page sections and the design partner dialog.
+- `app/api/design-partner/route.ts` — validates and stores design partner leads.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Design partner leads
+
+Submissions go to the Agent Readiness Index Supabase project, table `ari_leads`,
+with `source = 'design_partner'`. The route uses the service-role key on the
+server only (`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`). The table's schema
+lives in `vaultkit-inc/aai-readiness` under `supabase/migrations/`.

@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VaultKit · Approve exactly what your AI agents read</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#4F46E5}a:hover{color:#3730A3}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+@media (max-width: 900px){.hide-sm{display:none !important}.h1{font-size:40px !important;line-height:46px !important}.h2{font-size:30px !important;line-height:36px !important}}
+</style>
+</helmet>
+<div style="font-family: Inter, system-ui, sans-serif; color: #18181B; background: #FFFFFF; font-size: 16px; line-height: 26px">
+
+<div style="background: #16152B; color: #FFFFFF">
+<header style="max-width: 1200px; margin: 0 auto; box-sizing: border-box; height: 72px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px">
+<a href="#" style="display: inline-flex; align-items: center; gap: 10px; color: #FFFFFF; text-decoration: none">
+<span style="width: 30px; height: 30px; border-radius: 8px; background: {{accent}}; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 64 64" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11 L32 53 L54 11" stroke-width="9"></path><path d="M22 11 L32 31 L42 11" stroke-width="5"></path></svg>
+</span>
+<span style="font-weight: 600; font-size: 17px">VaultKit</span>
+</a>
+<nav aria-label="Main" style="display: flex; align-items: center; gap: 28px; font-size: 15px">
+<a href="#how" class="hide-sm" style="color: #C7C6DB; text-decoration: none">How it works</a>
+<a href="#grants" class="hide-sm" style="color: #C7C6DB; text-decoration: none">Approvals</a>
+<a href="#" class="hide-sm" style="color: #C7C6DB; text-decoration: none">Docs</a>
+<a href="#" class="hide-sm" style="color: #C7C6DB; text-decoration: none">GitHub</a>
+<button type="button" onClick="{{openForm}}" style="height: 38px; padding: 0 16px; border: 0; border-radius: 8px; background: #FFFFFF; color: #16152B; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">Become a design partner</button>
+</nav>
+</header>
+
+<section style="max-width: 1200px; margin: 0 auto; box-sizing: border-box; padding: 72px 24px 96px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 999px; background: rgba(165,180,252,0.12); color: #C7D2FE; font-size: 13px; font-weight: 500">Works with Claude Code, Cursor and any MCP client</span>
+<h1 class="h1" style="margin: 0; font-size: 56px; line-height: 62px; font-weight: 700; letter-spacing: -0.03em">Let AI agents query production. Approve exactly what they read.</h1>
+<p style="margin: 0; font-size: 19px; line-height: 30px; color: #C7C6DB; max-width: 560px">VaultKit sits between your agents and your databases. Policies in git decide what each request may return: allowed, masked, sent to a person for approval, or denied. Agents never hold database credentials.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
+<button type="button" onClick="{{openForm}}" style="height: 48px; padding: 0 22px; border: 0; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Become a design partner</button>
+<a href="#" style="height: 48px; box-sizing: border-box; padding: 0 20px; border-radius: 10px; border: 1px solid #3B3A5C; color: #FFFFFF; font-weight: 500; display: inline-flex; align-items: center; gap: 10px; text-decoration: none">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"></path></svg>
+Watch the 90-second demo
+</a>
+</div>
+<span style="font-size: 13px; color: #8E8DA8">Self-hosted. Your data and credentials never leave your infrastructure.</span>
+</div>
+
+<div aria-label="Example: an agent asks for payment data through VaultKit" style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="border-radius: 14px; background: #0B0A17; border: 1px solid #2A2945; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.4)">
+<div style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #2A2945; font-size: 12px; color: #8E8DA8">
+<span aria-hidden="true" style="display: flex; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 50%; background: #3B3A5C"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3B3A5C"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #3B3A5C"></span></span>
+<span style="padding-left: 6px">Coding agent · connected to VaultKit over MCP</span>
+</div>
+<div class="mono" style="padding: 18px 18px 20px; font-size: 13px; line-height: 22px; color: #D4D3E6; display: flex; flex-direction: column; gap: 14px">
+<div><span style="color: #A5B4FC">you</span>  Show me the last 10 failed payments, with the customer's email.</div>
+<div style="padding-left: 12px; border-left: 2px solid #3B3A5C; color: #8E8DA8">vaultkit_query · payments · read · 4 fields · last 24h</div>
+<div><span style="color: #FDBA74">approval required</span><span style="color: #8E8DA8">  payments_reviewer must approve this exact query. Purpose: INC-123 failed refunds.</span></div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #FFFFFF; color: #18181B; font-family: Inter, system-ui, sans-serif; font-size: 13px">
+<span aria-hidden="true" style="flex: none; width: 22px; height: 22px; border-radius: 50%; background: #16A34A; display: flex; align-items: center; justify-content: center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+<span style="flex: 1"><strong style="font-weight: 600">Ada</strong> approved it in the VaultKit console</span>
+<span style="color: #71717A; font-size: 12px">expires in 2h</span>
+</div>
+<div><span style="color: #86EFAC">10 rows</span><span style="color: #8E8DA8">  customer_email masked</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 16px; padding: 10px 12px; border-radius: 8px; background: #16152B; font-size: 12px">
+<span style="color: #8E8DA8">id</span><span style="color: #8E8DA8">amount</span><span style="color: #8E8DA8">customer_email</span>
+<span>pay_2041</span><span>482.10</span><span>cus****</span>
+<span>pay_2038</span><span>1,250.00</span><span>ord****</span>
+<span>pay_2031</span><span>96.40</span><span>mia****</span>
+</div>
+</div>
+</div>
+<span style="font-size: 12px; color: #8E8DA8; text-align: center">Illustrative. Run the same flow on your laptop with the demo in the docs.</span>
+</div>
+</section>
+</div>
+
+<section id="grants" style="max-width: 1200px; margin: 0 auto; box-sizing: border-box; padding: 112px 24px 96px; display: flex; flex-direction: column; gap: 48px">
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 600; color: {{accent}}">What makes VaultKit different</span>
+<h2 class="h2" style="margin: 0; font-size: 42px; line-height: 50px; font-weight: 700; letter-spacing: -0.02em">An approval covers one question. Not a table, not a role.</h2>
+<p style="margin: 0; font-size: 18px; line-height: 29px; color: #52525B">Database roles grant access to a table, indefinitely. VaultKit grants access to a single request: these fields, this time range, for this purpose, until it expires. Change the question and it needs approval again.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch">
+<div style="flex: 1 1 420px; min-width: 0; padding: 28px; border-radius: 16px; background: #FAFAFA; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 13px; font-weight: 600; color: #71717A; letter-spacing: 0.02em">A DATABASE ROLE</span>
+<code class="mono" style="font-size: 14px; line-height: 24px; color: #3F3F46; white-space: pre-wrap">GRANT SELECT ON payments TO agent_reader;</code>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: #52525B">
+<li>Every column, including ones added next month</li>
+<li>Every row, any time range</li>
+<li>No record of why the agent asked</li>
+<li>Valid until someone remembers to revoke it</li>
+</ul>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; padding: 28px; border-radius: 16px; background: #FFFFFF; border: 2px solid {{accent}}; box-shadow: 0 12px 32px rgba(79,70,229,0.12); display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 13px; font-weight: 600; color: {{accent}}; letter-spacing: 0.02em">A VAULTKIT GRANT</span>
+<code class="mono" style="font-size: 14px; line-height: 24px; color: #18181B; white-space: pre-wrap">support-agent may read id, amount, status
+and a masked customer_email from failed
+payments in the last 24 hours.</code>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: #3F3F46">
+<li>Bound to that exact request; a different question needs a new approval</li>
+<li>Approved by Ada for INC-123, and recorded</li>
+<li>Masking still applies after approval</li>
+<li>Expires in 2 hours, and stops working the moment the policy changes</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="how" style="background: #FAFAFA; border-top: 1px solid #F1F1F3; border-bottom: 1px solid #F1F1F3">
+<div style="max-width: 1200px; margin: 0 auto; box-sizing: border-box; padding: 96px 24px; display: flex; flex-direction: column; gap: 48px">
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 600; color: {{accent}}">How it works</span>
+<h2 class="h2" style="margin: 0; font-size: 42px; line-height: 50px; font-weight: 700; letter-spacing: -0.02em">Configure it from your terminal. Approve from the console.</h2>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px">
+<li style="padding: 24px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 14px">
+<span style="width: 32px; height: 32px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">1</span>
+<h3 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600">Connect a datasource</h3>
+<p style="margin: 0; font-size: 15px; line-height: 24px; color: #52525B">VaultKit holds the credential and runs queries next to your data. Agents never see it.</p>
+<pre class="mono" style="margin: 0; margin-top: auto; padding: 14px; border-radius: 10px; background: #18181B; color: #E4E4E7; font-size: 12.5px; line-height: 20px; overflow-x: auto">$ vkit datasource add --id prod_db …
+$ vkit scan</pre>
+</li>
+<li style="padding: 24px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 14px">
+<span style="width: 32px; height: 32px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">2</span>
+<h3 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600">Write policy as code</h3>
+<p style="margin: 0; font-size: 15px; line-height: 24px; color: #52525B">Policies live in git, get reviewed like any other change, and deploy pinned to a commit.</p>
+<pre class="mono" style="margin: 0; margin-top: auto; padding: 14px; border-radius: 10px; background: #18181B; color: #E4E4E7; font-size: 12.5px; line-height: 20px; overflow-x: auto"><span style="color: #A1A1AA"># policies/payments.yaml</span>
+match:  { dataset: payments }
+action: require_approval
+approval:
+  approver_role: payments_reviewer</pre>
+</li>
+<li style="padding: 24px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 14px">
+<span style="width: 32px; height: 32px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">3</span>
+<h3 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600">Point your agents at VaultKit</h3>
+<p style="margin: 0; font-size: 15px; line-height: 24px; color: #52525B">Through the MCP server, the Python SDK or the CLI. Approvers act from the console.</p>
+<pre class="mono" style="margin: 0; margin-top: auto; padding: 14px; border-radius: 10px; background: #18181B; color: #E4E4E7; font-size: 12.5px; line-height: 20px; overflow-x: auto">"vaultkit": {
+  "command": "vaultkit-mcp",
+  "env": { "VAULTKIT_TOKEN": "…" }
+}</pre>
+</li>
+</ol>
+</div>
+</section>
+
+<section style="max-width: 1200px; margin: 0 auto; box-sizing: border-box; padding: 96px 24px; display: flex; flex-direction: column; gap: 48px">
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 600; color: {{accent}}">Every request, four possible answers</span>
+<h2 class="h2" style="margin: 0; font-size: 42px; line-height: 50px; font-weight: 700; letter-spacing: -0.02em">Your policy decides before a single row leaves the database.</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px">
+<div style="padding: 24px; border-radius: 16px; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; padding: 2px 10px; border-radius: 6px; background: #ECFDF3; color: #166534; font-size: 13px; font-weight: 600">Allow</span>
+<p style="margin: 0; font-size: 15px; line-height: 24px; color: #52525B">Routine questions run straight away. Nothing changes for the developer.</p>
+</div>
+<div style="padding: 24px; border-radius: 16px; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; padding: 2px 10px; border-radius: 6px; background: #EEF2FF; color: #3730A3; font-size: 13px; font-weight: 600">Mask</span>
+<p style="margin: 0; font-size: 15px; line-height: 24px; color: #52525B">Sensitive fields come back masked, even after a request is approved.</p>
+</div>
+<div style="padding: 24px; border-radius: 16px; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; padding: 2px 10px; border-radius: 6px; background: #FFF7ED; color: #9A3412; font-size: 13px; font-weight: 600">Require approval</span>
+<p style="margin: 0; font-size: 15px; line-height: 24px; color: #52525B">A person in the right group approves the exact request. Nobody approves their own.</p>
+</div>
+<div style="padding: 24px; border-radius: 16px; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; padding: 2px 10px; border-radius: 6px; background: #FEF2F2; color: #B91C1C; font-size: 13px; font-weight: 600">Deny</span>
+<p style="margin: 0; font-size: 15px; line-height: 24px; color: #52525B">Some data is never returned. And there's no write path at all.</p>
+</div>
+</div>
+</section>
+
+<section style="background: #FAFAFA; border-top: 1px solid #F1F1F3; border-bottom: 1px solid #F1F1F3">
+<div style="max-width: 1200px; margin: 0 auto; box-sizing: border-box; padding: 96px 24px; display: flex; flex-wrap: wrap; gap: 56px">
+<div style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 600; color: {{accent}}">Why IAM isn't enough</span>
+<h2 class="h2" style="margin: 0; font-size: 38px; line-height: 46px; font-weight: 700; letter-spacing: -0.02em">IAM answers who may connect. Not what a specific question may return.</h2>
+<p style="margin: 0; font-size: 17px; line-height: 28px; color: #52525B">Keep your database roles and IAM. VaultKit works at the layer they don't reach: individual requests, individual fields, and why the agent asked.</p>
+</div>
+<ul style="flex: 1 1 480px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px">
+<li style="padding: 18px 20px; border-radius: 12px; background: #FFFFFF; border: 1px solid #E7E7EA"><strong style="font-weight: 600; display: block">Which fields should this agent see?</strong><span style="font-size: 15px; color: #52525B">A table grant includes every column, even one a teammate added last week.</span></li>
+<li style="padding: 18px 20px; border-radius: 12px; background: #FFFFFF; border: 1px solid #E7E7EA"><strong style="font-weight: 600; display: block">Does this request need a person to sign off?</strong><span style="font-size: 15px; color: #52525B">Roles are standing permissions. There's no way to approve one query and not the next.</span></li>
+<li style="padding: 18px 20px; border-radius: 12px; background: #FFFFFF; border: 1px solid #E7E7EA"><strong style="font-weight: 600; display: block">Which agent asked, and why?</strong><span style="font-size: 15px; color: #52525B">The database sees a service account. VaultKit records which agent asked, with what token, and the purpose it gave.</span></li>
+</ul>
+</div>
+</section>
+
+<section style="max-width: 1200px; margin: 0 auto; box-sizing: border-box; padding: 96px 24px; display: flex; flex-wrap: wrap; gap: 48px">
+<div style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 600; color: {{accent}}">Who it's for</span>
+<h2 class="h2" style="margin: 0; font-size: 38px; line-height: 46px; font-weight: 700; letter-spacing: -0.02em">Teams whose agents ask questions nobody planned for.</h2>
+<p style="margin: 0; font-size: 17px; line-height: 28px; color: #52525B">If your agents only call fixed internal APIs, you may not need VaultKit. If they write their own queries against production, you probably do.</p>
+</div>
+<div style="flex: 1 1 520px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+<div style="padding: 22px; border-radius: 14px; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 6px"><strong style="font-weight: 600">Coding agents on production</strong><span style="font-size: 15px; line-height: 24px; color: #52525B">Claude Code or Cursor wired to a production database through an MCP server.</span></div>
+<div style="padding: 22px; border-radius: 14px; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 6px"><strong style="font-weight: 600">Analytics agents</strong><span style="font-size: 15px; line-height: 24px; color: #52525B">Agents that answer business questions by writing their own queries.</span></div>
+<div style="padding: 22px; border-radius: 14px; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 6px"><strong style="font-weight: 600">Incident response</strong><span style="font-size: 15px; line-height: 24px; color: #52525B">Agents digging through production data mid-incident, where speed and oversight both matter.</span></div>
+<div style="padding: 22px; border-radius: 14px; border: 1px solid #E7E7EA; display: flex; flex-direction: column; gap: 6px"><strong style="font-weight: 600">Teams with a homegrown workaround</strong><span style="font-size: 15px; line-height: 24px; color: #52525B">A read-only replica, a hand-rolled allowlist, or a reviewer pasting query results.</span></div>
+</div>
+</section>
+
+<section id="partners" style="background: #16152B; color: #FFFFFF">
+<div style="max-width: 1200px; margin: 0 auto; box-sizing: border-box; padding: 96px 24px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center; justify-content: space-between">
+<div style="flex: 1 1 520px; display: flex; flex-direction: column; gap: 16px">
+<h2 class="h2" style="margin: 0; font-size: 42px; line-height: 50px; font-weight: 700; letter-spacing: -0.02em">Become a design partner.</h2>
+<p style="margin: 0; font-size: 18px; line-height: 29px; color: #C7C6DB; max-width: 620px">We're working closely with a small number of teams running agents on production data. You get hands-on setup with the founder and a direct say in the roadmap.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<button type="button" onClick="{{openForm}}" style="height: 48px; padding: 0 22px; border: 0; border-radius: 10px; background: #FFFFFF; color: #16152B; font: inherit; font-weight: 600; cursor: pointer">Become a design partner</button>
+<a href="#" style="height: 48px; box-sizing: border-box; padding: 0 20px; border-radius: 10px; border: 1px solid #3B3A5C; color: #FFFFFF; font-weight: 500; display: inline-flex; align-items: center; text-decoration: none">Read the docs</a>
+</div>
+</div>
+<footer style="border-top: 1px solid #2A2945">
+<div style="max-width: 1200px; margin: 0 auto; box-sizing: border-box; padding: 28px 24px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-size: 14px; color: #8E8DA8">
+<span>VaultKit · founders@vaultkit.io</span>
+<span style="display: flex; gap: 24px"><a href="#" style="color: #8E8DA8; text-decoration: none">Docs</a><a href="#" style="color: #8E8DA8; text-decoration: none">GitHub</a><a href="#" style="color: #8E8DA8; text-decoration: none">Agent Readiness Index</a></span>
+</div>
+</footer>
+</section>
+
+<sc-if value="{{formOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 24px">
+<button type="button" aria-label="Close" onClick="{{closeForm}}" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; padding: 0; border: 0; background: rgba(15,14,30,0.6); cursor: default"></button>
+<div role="dialog" aria-modal="true" aria-labelledby="dp-title" style="position: relative; width: 100%; max-width: 560px; max-height: 100%; overflow-y: auto; box-sizing: border-box; border-radius: 16px; background: #FFFFFF; box-shadow: 0 30px 80px rgba(0,0,0,0.35); font-size: 15px; line-height: 22px">
+
+<button type="button" aria-label="Close" onClick="{{closeForm}}" style="position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; color: #52525B; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+</button>
+
+<sc-if value="{{formEditing}}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{submitForm}}" style="padding: 32px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 6px; padding-right: 32px">
+<h2 id="dp-title" style="margin: 0; font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.01em">Become a design partner</h2>
+<p style="margin: 0; color: #52525B">Tell us a little about your setup. Nnamdi, the founder, replies personally within two business days.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="dp-email" style="font-size: 13px; font-weight: 500">Work email</label>
+<input id="dp-email" type="email" required autocomplete="email" placeholder="you@company.com" style="height: 42px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 8px; font: inherit; color: #18181B">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="dp-company" style="font-size: 13px; font-weight: 500">Company</label>
+<input id="dp-company" type="text" required autocomplete="organization" placeholder="Acme" style="height: 42px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 8px; font: inherit; color: #18181B">
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="dp-role" style="font-size: 13px; font-weight: 500">Your role <span style="font-weight: 400; color: #71717A">(optional)</span></label>
+<input id="dp-role" type="text" autocomplete="organization-title" placeholder="Platform engineer, security lead, CTO…" style="height: 42px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 8px; font: inherit; color: #18181B">
+</div>
+
+<fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
+<legend style="font-size: 13px; font-weight: 500; padding: 0; margin-bottom: 10px">What are your agents doing with production data? <span style="font-weight: 400; color: #71717A">Pick any</span></legend>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{useCases}}" as="u" hint-placeholder-count="5">
+<sc-if value="{{u.on}}" hint-placeholder-val="{{ false }}">
+<button type="button" aria-pressed="true" onClick="{{u.toggle}}" style="height: 36px; display: inline-flex; align-items: center; gap: 6px; padding: 0 14px; border: 1px solid {{accent}}; border-radius: 999px; background: {{accentTint}}; color: {{accent}}; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">
+<svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+{{u.label}}
+</button>
+</sc-if>
+<sc-if value="{{u.off}}" hint-placeholder-val="{{ true }}">
+<button type="button" aria-pressed="false" onClick="{{u.toggle}}" style="height: 36px; padding: 0 14px; border: 1px solid #E4E4E7; border-radius: 999px; background: #FFFFFF; color: #3F3F46; font: inherit; font-size: 14px; cursor: pointer">{{u.label}}</button>
+</sc-if>
+</sc-for>
+</div>
+</fieldset>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="dp-notes" style="font-size: 13px; font-weight: 500">Anything else? <span style="font-weight: 400; color: #71717A">(optional)</span></label>
+<textarea id="dp-notes" rows="3" placeholder="Which databases, what you use today to keep agents in check, what worries you." style="box-sizing: border-box; padding: 10px 12px; border: 1px solid #D4D4D8; border-radius: 8px; font: inherit; color: #18181B; resize: vertical"></textarea>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 4px">
+<span style="font-size: 12px; color: #71717A; max-width: 300px">We only use this to get in touch about VaultKit.</span>
+<button type="submit" style="height: 44px; padding: 0 20px; border: 0; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Send</button>
+</div>
+</form>
+</sc-if>
+
+<sc-if value="{{formSent}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="padding: 40px 32px 32px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center">
+<span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #ECFDF3; display: flex; align-items: center; justify-content: center">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+</span>
+<h2 id="dp-title" style="margin: 0; font-size: 24px; line-height: 30px; font-weight: 700">Thanks, it's on its way</h2>
+<p style="margin: 0; color: #52525B; max-width: 400px">Nnamdi will reply within two business days. If you'd rather not wait, pick a time for a 30-minute call now.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding-top: 4px">
+<a href="#" style="height: 44px; box-sizing: border-box; padding: 0 20px; border-radius: 10px; background: {{accent}}; color: #FFFFFF; font-weight: 600; display: inline-flex; align-items: center; text-decoration: none">Pick a time</a>
+<button type="button" onClick="{{closeForm}}" style="height: 44px; padding: 0 18px; border: 1px solid #E4E4E7; border-radius: 10px; background: #FFFFFF; color: #18181B; font: inherit; font-weight: 500; cursor: pointer">Close</button>
+</div>
+</div>
+</sc-if>
+
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"startWithForm":{"editor":"boolean","default":false},"accent":{"editor":"color","default":"#4F46E5","options":["#4F46E5","#0F766E","#C2410C","#18181B"]},"$preview":{"width":1440,"height":4400}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { form: props.startWithForm ? 'editing' : 'closed', picks: {} };
+}
+renderVals() {
+var self = this;
+var accent = this.props.accent ?? '#4F46E5';
+var picks = this.state.picks;
+var labels = ['Coding agents on production', 'Analytics agents', 'Incident response', 'Customer support agents', 'Something else'];
+var useCases = labels.map(function (l) {
+var on = !!picks[l];
+return { label: l, on: on, off: !on, toggle: function () { var n = Object.assign({}, picks); n[l] = !on; self.setState({ picks: n }); } };
+});
+return {
+accent: accent,
+accentTint: accent + '14',
+formOpen: this.state.form !== 'closed',
+formEditing: this.state.form === 'editing',
+formSent: this.state.form === 'sent',
+useCases: useCases,
+openForm: function () { self.setState({ form: 'editing' }); },
+closeForm: function () { self.setState({ form: 'closed', picks: {} }); },
+submitForm: function (e) { if (e && e.preventDefault) { e.preventDefault(); } self.setState({ form: 'sent' }); }
+};
+}
+}
+</script>
+</body>
+</html>

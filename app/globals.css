@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Components use these through Tailwind utilities
+ * (bg-night, text-ink-muted, rounded-card, text-display...), never raw hex.
+ */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
+
+  /* Brand */
+  --color-accent: #4f46e5;
+  --color-accent-strong: #3730a3;
+  --color-accent-tint: #eef2ff;
+  --color-accent-soft: #c7d2fe;
+  --color-accent-glow: #a5b4fc;
+
+  /* Light surfaces and text */
+  --color-paper: #ffffff;
+  --color-paper-muted: #fafafa;
+  --color-line: #e7e7ea;
+  --color-line-soft: #f1f1f3;
+  --color-line-strong: #d4d4d8;
+  --color-ink: #18181b;
+  --color-ink-body: #3f3f46;
+  --color-ink-muted: #52525b;
+  --color-ink-subtle: #71717a;
+
+  /* Dark surfaces and text */
+  --color-night: #16152b;
+  --color-night-deep: #0b0a17;
+  --color-night-line: #2a2945;
+  --color-night-border: #3b3a5c;
+  --color-night-text: #d4d3e6;
+  --color-night-muted: #c7c6db;
+  --color-night-subtle: #8e8da8;
+  --color-code: #18181b;
+  --color-code-text: #e4e4e7;
+  --color-code-comment: #a1a1aa;
+
+  /* Outcomes */
+  --color-allow: #166534;
+  --color-allow-tint: #ecfdf3;
+  --color-allow-strong: #16a34a;
+  --color-allow-glow: #86efac;
+  --color-warn: #9a3412;
+  --color-warn-tint: #fff7ed;
+  --color-warn-glow: #fdba74;
+  --color-deny: #b91c1c;
+  --color-deny-tint: #fef2f2;
+
+  /* Type scale: size / line height */
+  --text-display: 3.5rem;
+  --text-display--line-height: 3.875rem;
+  --text-display--letter-spacing: -0.03em;
+  --text-display-sm: 2.5rem;
+  --text-display-sm--line-height: 2.875rem;
+  --text-heading: 2.625rem;
+  --text-heading--line-height: 3.125rem;
+  --text-heading-sm: 2.375rem;
+  --text-heading-sm--line-height: 2.875rem;
+  --text-heading-xs: 1.875rem;
+  --text-heading-xs--line-height: 2.25rem;
+  --text-lead: 1.1875rem;
+  --text-lead--line-height: 1.875rem;
+  --text-intro: 1.125rem;
+  --text-intro--line-height: 1.8125rem;
+  --text-body: 1rem;
+  --text-body--line-height: 1.625rem;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.5rem;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.375rem;
+  --text-code: 0.8125rem;
+  --text-code--line-height: 1.375rem;
+
+  /* Radii */
+  --radius-control: 0.5rem;
+  --radius-button: 0.625rem;
+  --radius-tile: 0.75rem;
+  --radius-panel: 0.875rem;
+  --radius-card: 1rem;
+
+  /* Spacing */
+  --spacing-gutter: 1.5rem;
+  --spacing-section: 6rem;
+  --spacing-nav: 4.5rem;
+  --container-page: 75rem;
+  --container-prose: 47.5rem;
+
+  --shadow-terminal: 0 30px 60px rgb(0 0 0 / 0.4);
+  --shadow-accent: 0 12px 32px rgb(79 70 229 / 0.12);
+  --shadow-dialog: 0 30px 80px rgb(0 0 0 / 0.35);
+  --color-scrim: rgb(15 14 30 / 0.6);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper font-sans text-body text-ink antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+  .bg-night :focus-visible,
+  .bg-night-deep :focus-visible {
+    @apply outline-accent-glow;
+  }
+}
