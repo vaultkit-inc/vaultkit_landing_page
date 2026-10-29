@@ -33,5 +33,5 @@ npm run dev
 
 Submissions go to the Agent Readiness Index Supabase project, table `ari_leads`,
 with `source = 'design_partner'`. The route uses the service-role key on the
-server only (`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`). The schema change it
-needs is in `docs/supabase/`; it belongs in `vaultkit-inc/aai-readiness`.
+server only (`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`). The table's schema
+lives in `vaultkit-inc/aai-readiness` under `supabase/migrations/`.
