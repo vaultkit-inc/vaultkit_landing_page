@@ -3,7 +3,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 
 const insert = vi.fn()
 vi.mock("server-only", () => ({}))
-vi.mock("@/lib/supabase", () => ({ leadsClient: () => ({ from: () => ({ insert }) }) }))
+const leadsClient = vi.fn()
+vi.mock("@/lib/supabase", () => ({ leadsClient: () => leadsClient() }))
 
 const { POST } = await import("./route")
 
@@ -23,8 +24,10 @@ const valid = { email: " Ada@Example.com ", company: "Acme", role: "", useCases:
 
 describe("POST /api/design-partner", () => {
   beforeEach(() => {
+    vi.restoreAllMocks()
     insert.mockReset()
     insert.mockResolvedValue({ error: null })
+    leadsClient.mockReturnValue({ client: { from: () => ({ insert }) } })
   })
 
   it("saves a valid lead with source design_partner", async () => {
@@ -57,6 +60,25 @@ describe("POST /api/design-partner", () => {
     insert.mockResolvedValue({ error: { message: "boom" } })
     vi.spyOn(console, "error").mockImplementation(() => {})
     expect((await post(valid)).status).toBe(500)
+  })
+
+  it("logs why storage isn't configured and answers with JSON", async () => {
+    leadsClient.mockReturnValue({ problem: "SUPABASE_URL is not a valid URL" })
+    const log = vi.spyOn(console, "error").mockImplementation(() => {})
+    const res = await post(valid)
+    expect(res.status).toBe(500)
+    expect(await res.json()).toEqual({ error: "Not configured" })
+    expect(log).toHaveBeenCalledWith("[design-partner] Not configured: SUPABASE_URL is not a valid URL")
+    expect(insert).not.toHaveBeenCalled()
+  })
+
+  it("answers with JSON when the insert throws", async () => {
+    insert.mockRejectedValue(new Error("fetch failed"))
+    const log = vi.spyOn(console, "error").mockImplementation(() => {})
+    const res = await post(valid)
+    expect(res.status).toBe(500)
+    expect(await res.json()).toEqual({ error: "Failed to save" })
+    expect(log).toHaveBeenCalledWith("[design-partner] Supabase insert error:", "fetch failed")
   })
 
   it("rate limits repeated submissions from one address", async () => {

@@ -32,23 +32,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid lead", fields: errors }, { status: 400 })
   }
 
-  const supabase = leadsClient()
-  if (!supabase) {
-    console.error("[design-partner] SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY is not set")
+  const { client, problem } = leadsClient()
+  if (!client) {
+    console.error(`[design-partner] Not configured: ${problem}`)
     return NextResponse.json({ error: "Not configured" }, { status: 500 })
   }
 
-  const { error } = await supabase.from("ari_leads").insert({
-    source: "design_partner",
-    email: lead.email,
-    company: lead.company,
-    role: lead.role || null,
-    use_cases: lead.useCases,
-    notes: lead.notes || null,
-  })
+  let message: string | null
+  try {
+    const { error } = await client.from("ari_leads").insert({
+      source: "design_partner",
+      email: lead.email,
+      company: lead.company,
+      role: lead.role || null,
+      use_cases: lead.useCases,
+      notes: lead.notes || null,
+    })
+    message = error?.message ?? null
+  } catch (error) {
+    message = error instanceof Error ? error.message : String(error)
+  }
 
-  if (error) {
-    console.error("[design-partner] Supabase insert error:", error.message)
+  if (message) {
+    console.error("[design-partner] Supabase insert error:", message)
     return NextResponse.json({ error: "Failed to save" }, { status: 500 })
   }
 
