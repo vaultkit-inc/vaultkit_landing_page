@@ -1,17 +1,17 @@
 import { render, screen, waitFor, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { afterEach, describe, expect, it, vi } from "vitest"
+import { Header } from "./Header"
 import { Hero } from "./Hero"
-import { Nav } from "./Nav"
-import { PartnerCta } from "./PartnerCta"
 import { PartnerDialogProvider } from "./PartnerButton"
+import { PartnerSection } from "./PartnerSection"
 
 function renderPage() {
   return render(
     <PartnerDialogProvider>
-      <Nav />
+      <Header />
       <Hero />
-      <PartnerCta />
+      <PartnerSection />
     </PartnerDialogProvider>,
   )
 }
@@ -29,11 +29,11 @@ afterEach(() => {
 })
 
 describe("DesignPartnerDialog", () => {
-  it("opens from each CTA: nav, hero and bottom section", async () => {
+  it("opens from each CTA: hero and design partner section", async () => {
     const user = userEvent.setup()
     renderPage()
-    expect(ctas()).toHaveLength(3)
-    for (let i = 0; i < 3; i++) {
+    expect(ctas()).toHaveLength(2)
+    for (let i = 0; i < 2; i++) {
       await user.click(ctas()[i])
       expect(screen.getByRole("dialog", { name: "Become a design partner" })).toBeInTheDocument()
       await user.keyboard("{Escape}")
@@ -83,7 +83,7 @@ describe("DesignPartnerDialog", () => {
     vi.stubGlobal("fetch", vi.fn(async () => new Response("{}", { status: 500 })))
     const user = userEvent.setup()
     renderPage()
-    await user.click(ctas()[2])
+    await user.click(ctas()[1])
     await fillRequired(user)
     await user.keyboard("{Enter}")
 
@@ -91,6 +91,12 @@ describe("DesignPartnerDialog", () => {
     expect(alert).toHaveTextContent("Something went wrong")
     expect(within(alert).getByRole("link", { name: "founders@vaultkit.io" })).toHaveAttribute("href", "mailto:founders@vaultkit.io")
     expect(screen.getByRole("button", { name: "Send" })).toBeEnabled()
+  })
+
+  it("links the header CTA to the design partner section", () => {
+    renderPage()
+    expect(screen.getByRole("link", { name: "design partners →" })).toHaveAttribute("href", "#partner")
+    expect(document.getElementById("partner")).toContainElement(ctas()[1])
   })
 
   it("closes on Esc and returns focus to the CTA that opened it", async () => {

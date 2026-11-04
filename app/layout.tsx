@@ -1,12 +1,20 @@
 import type { Metadata, Viewport } from "next"
-import { Inter, JetBrains_Mono } from "next/font/google"
+import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from "next/font/google"
 import { meta } from "@/content/landing"
 import { brand } from "@/lib/brand"
 import { siteConfig } from "@/lib/config"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" })
-const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-jetbrains-mono", display: "swap" })
+// next/font self-hosts these at build time and sizes the fallback fonts to match, so swapping in doesn't shift layout.
+const serif = IBM_Plex_Serif({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
+  variable: "--font-plex-serif",
+  display: "swap",
+})
+const sans = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-plex-sans", display: "swap" })
+const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-plex-mono", display: "swap" })
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -30,11 +38,11 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: meta.title, description: meta.description },
 }
 
-export const viewport: Viewport = { themeColor: brand.night }
+export const viewport: Viewport = { themeColor: brand.paper }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable}`}>
+    <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
       <body>{children}</body>
     </html>
   )

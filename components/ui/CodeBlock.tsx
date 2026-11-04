@@ -2,32 +2,28 @@ import { cn } from "@/lib/utils"
 
 type CodeBlockProps = {
   code: string
-  /** "terminal" is a dark, horizontally scrolling block; "inline" sits on a light card. */
-  variant?: "terminal" | "inline"
-  label?: string
+  /** Describes the snippet for screen readers. */
+  label: string
   className?: string
 }
 
-/** Lines starting with "#" render as comments. */
-export function CodeBlock({ code, variant = "terminal", label, className }: CodeBlockProps) {
-  const lines = code.split("\n")
-  const isTerminal = variant === "terminal"
+/**
+ * Dark, square code block. Lines keep their layout and scroll sideways inside
+ * the block on narrow screens; it is focusable so the keyboard can scroll it.
+ * Lines starting with "#" render as comments.
+ */
+export function CodeBlock({ code, label, className }: CodeBlockProps) {
   return (
     <pre
+      role="region"
       aria-label={label}
-      tabIndex={isTerminal ? 0 : undefined}
-      className={cn(
-        "m-0 font-mono",
-        isTerminal
-          ? "overflow-x-auto rounded-button bg-code p-3.5 text-[12.5px] leading-5 text-code-text"
-          : "text-sm leading-6 whitespace-pre-wrap text-inherit",
-        className,
-      )}
+      tabIndex={0}
+      className={cn("m-0 overflow-x-auto bg-code px-3.5 py-3 font-mono text-snippet text-code-text", className)}
     >
       <code>
-        {lines.map((line, i) => (
+        {code.split("\n").map((line, i) => (
           <span key={i} className={cn("block", line.startsWith("#") && "text-code-comment")}>
-            {line || " "}
+            {line || " "}
           </span>
         ))}
       </code>

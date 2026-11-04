@@ -3,23 +3,23 @@ import { cn } from "@/lib/utils"
 import { Spinner } from "./Spinner"
 
 const variants = {
-  primary: "bg-accent text-paper hover:bg-accent-strong",
-  inverse: "bg-paper text-night hover:bg-accent-tint",
-  // Light by default; adapts inside any data-tone="dark" surface.
-  outline:
-    "border border-line-strong bg-paper text-ink hover:bg-paper-muted in-data-[tone=dark]:border-night-border in-data-[tone=dark]:bg-transparent in-data-[tone=dark]:text-paper in-data-[tone=dark]:hover:bg-night-line",
+  /** The main action on paper: ink block. */
+  ink: "bg-ink text-paper hover:bg-ink-soft",
+  /** Reserved for actions that should stand out: burnt orange. */
+  accent: "bg-accent text-on-accent hover:bg-accent-strong",
+  /** Secondary, mono, outlined. */
+  outline: "border border-rule-strong font-mono text-small text-ink hover:bg-paper-raised",
 }
 
 const sizes = {
-  sm: "h-[38px] px-4 text-sm rounded-control",
-  md: "h-11 px-5 rounded-button",
-  lg: "h-12 px-[22px] rounded-button",
+  sm: "min-h-9 px-3.5 py-1.5 text-small",
+  md: "min-h-12 px-[18px] py-2.5",
+  lg: "min-h-[52px] px-[22px] py-3",
 }
 
 type Common = {
   variant?: keyof typeof variants
   size?: keyof typeof sizes
-  icon?: ReactNode
   className?: string
   children: ReactNode
 }
@@ -29,27 +29,26 @@ type AsLink = Common & AnchorHTMLAttributes<HTMLAnchorElement> & { href: string 
 
 export type ButtonProps = AsButton | AsLink
 
-export function buttonClasses(variant: keyof typeof variants = "primary", size: keyof typeof sizes = "md") {
+export function buttonClasses(variant: keyof typeof variants = "ink", size: keyof typeof sizes = "md") {
   return cn(
-    "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2.5 font-semibold whitespace-nowrap transition-colors",
+    "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2.5 font-medium no-underline transition-colors",
     "disabled:cursor-not-allowed disabled:opacity-70",
-    variants[variant],
     sizes[size],
+    variants[variant],
   )
 }
 
-/** Renders a <button>, or an <a> when given an href. */
+/** Renders a <button>, or an <a> when given an href. Square, no shadow. */
 export function Button(props: ButtonProps) {
   if (props.href !== undefined) {
-    const { variant, size, icon, className, children, ...rest } = props
+    const { variant, size, className, children, ...rest } = props
     return (
       <a className={cn(buttonClasses(variant, size), className)} {...rest}>
-        {icon}
         {children}
       </a>
     )
   }
-  const { variant, size, icon, className, children, loading, disabled, type = "button", ...rest } = props
+  const { variant, size, className, children, loading, disabled, type = "button", ...rest } = props
   return (
     <button
       type={type}
@@ -58,7 +57,7 @@ export function Button(props: ButtonProps) {
       aria-busy={loading || undefined}
       {...rest}
     >
-      {loading ? <Spinner /> : icon}
+      {loading && <Spinner />}
       {children}
     </button>
   )

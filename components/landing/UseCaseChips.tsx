@@ -17,8 +17,8 @@ export function UseCaseChips({ legend, hint, options, value, onChange, error }: 
   }
   return (
     <fieldset className="m-0 flex flex-col gap-2.5 border-0 p-0">
-      <legend className="mb-2.5 p-0 text-caption font-medium">
-        {legend} <span className="font-normal text-ink-subtle">{hint}</span>
+      <legend className="mb-2.5 p-0 font-mono text-label font-medium">
+        {legend} <span className="font-normal text-muted">{hint}</span>
       </legend>
       <div className="flex flex-wrap gap-2">
         {options.map((option) => {
@@ -30,8 +30,8 @@ export function UseCaseChips({ legend, hint, options, value, onChange, error }: 
               aria-pressed={on}
               onClick={() => toggle(option.id)}
               className={cn(
-                "inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-full border px-3.5 text-sm",
-                on ? "border-accent bg-accent-tint font-medium text-accent" : "border-line bg-paper text-ink-body hover:bg-paper-muted",
+                "inline-flex min-h-9 cursor-pointer items-center gap-1.5 border px-3 text-small",
+                on ? "border-ink bg-ink text-paper" : "border-muted bg-paper-raised text-ink hover:border-ink",
               )}
             >
               {on && (
@@ -44,7 +44,7 @@ export function UseCaseChips({ legend, hint, options, value, onChange, error }: 
           )
         })}
       </div>
-      {error && <p className="m-0 text-caption text-deny">{error}</p>}
+      {error && <p className="m-0 text-small text-deny">{error}</p>}
     </fieldset>
   )
 }
