@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VaultKit · direction B, spec sheet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Serif:ital,wght@0,500;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F2EC}
+.m{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.s{font-family:'IBM Plex Serif',Georgia,serif}
+.lk{color:#1B1A17;text-decoration:none}.lk:hover{text-decoration:underline}
+</style>
+</helmet>
+<div style="font-family: 'IBM Plex Sans', system-ui, sans-serif; background: #F4F2EC; color: #1B1A17; font-size: 16px; line-height: 26px; min-height: 3300px">
+<div style="max-width: 1160px; margin: 0 auto; border-left: 1px solid #D9D5CA; border-right: 1px solid #D9D5CA; min-height: 3300px">
+
+<header style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 28px; border-bottom: 1px solid #1B1A17">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 64 64" fill="none" stroke="#1B1A17" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11 L32 53 L54 11" stroke-width="9"></path><path d="M22 11 L32 31 L42 11" stroke-width="5"></path></svg>
+<span style="font-weight: 600">VaultKit</span>
+<span class="m" style="font-size: 11.5px; color: #77736A; margin-left: 6px">v0.9 · alpha</span>
+</div>
+<nav class="m" style="display: flex; align-items: center; gap: 24px; font-size: 13px">
+<a class="lk" href="#">docs</a><a class="lk" href="#">github</a>
+<a href="#partner" style="padding: 7px 14px; background: {{accent}}; color: #FFFFFF; text-decoration: none">design partners →</a>
+</nav>
+</header>
+
+<section style="display: flex; flex-wrap: wrap; border-bottom: 1px solid #D9D5CA">
+<div style="flex: 1 1 560px; min-width: 0; padding: 72px 28px 64px; display: flex; flex-direction: column; gap: 26px; border-right: 1px solid #D9D5CA">
+<span class="m" style="font-size: 12px; color: {{accent}}">§0 · RUNTIME ACCESS CONTROL FOR AI AGENTS</span>
+<h1 class="s" style="margin: 0; font-size: 58px; line-height: 64px; font-weight: 500; letter-spacing: -0.02em">Authorize the query,<br><em style="font-weight: 400">not just the credential.</em></h1>
+<p style="margin: 0; font-size: 18px; line-height: 29px; color: #4A4740; max-width: 560px">Agents ask questions nobody planned for. VaultKit decides each one before it runs: allow, mask, require a person's approval, or deny. Policy lives in git. Credentials stay with VaultKit.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="#partner" style="padding: 12px 18px; background: #1B1A17; color: #F4F2EC; font-weight: 500; text-decoration: none">Become a design partner</a>
+<a href="#" class="m" style="padding: 11px 16px; border: 1px solid #1B1A17; color: #1B1A17; font-size: 14px; text-decoration: none">read the spec →</a>
+</div>
+</div>
+<dl class="m" style="flex: 1 1 340px; min-width: 0; margin: 0; padding: 72px 28px 64px; display: grid; grid-template-columns: 120px 1fr; row-gap: 14px; column-gap: 16px; font-size: 13px; align-content: start">
+<dt style="color: #77736A">deploys</dt><dd style="margin: 0">self-hosted, next to your data</dd>
+<dt style="color: #77736A">sources</dt><dd style="margin: 0">postgres today; clickhouse, datadog next</dd>
+<dt style="color: #77736A">agents</dt><dd style="margin: 0">MCP, Python SDK, CLI</dd>
+<dt style="color: #77736A">policy</dt><dd style="margin: 0">YAML in git, pinned per deploy</dd>
+<dt style="color: #77736A">decisions</dt><dd style="margin: 0">allow · mask · approve · deny</dd>
+<dt style="color: #77736A">grants</dt><dd style="margin: 0">one exact query, time-boxed</dd>
+<dt style="color: #77736A">writes</dt><dd style="margin: 0">none. there is no write path</dd>
+<dt style="color: #77736A">audit</dt><dd style="margin: 0">agent, token, purpose, query</dd>
+</dl>
+</section>
+
+<section style="padding: 64px 28px; border-bottom: 1px solid #D9D5CA; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 10px; max-width: 640px">
+<span class="m" style="font-size: 12px; color: {{accent}}">§1 · ONE INCIDENT, THREE QUESTIONS</span>
+<h2 class="s" style="margin: 0; font-size: 36px; line-height: 42px; font-weight: 500">Same agent, same table. Three different answers.</h2>
+</div>
+<span class="m" style="font-size: 12px; color: #77736A">incident-bot · INC-123 · production</span>
+</div>
+<div style="overflow-x: auto; border: 1px solid #1B1A17">
+<table style="width: 100%; min-width: 820px; border-collapse: collapse; font-size: 14px">
+<thead><tr class="m" style="font-size: 11.5px; color: #77736A; text-align: left">
+<th scope="col" style="padding: 10px 16px; border-bottom: 1px solid #1B1A17; font-weight: 500; width: 30%">the agent asks</th>
+<th scope="col" style="padding: 10px 16px; border-bottom: 1px solid #1B1A17; font-weight: 500; width: 30%">as AQL</th>
+<th scope="col" style="padding: 10px 16px; border-bottom: 1px solid #1B1A17; font-weight: 500; width: 16%">decision</th>
+<th scope="col" style="padding: 10px 16px; border-bottom: 1px solid #1B1A17; font-weight: 500">what comes back</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="3">
+<tr style="vertical-align: top">
+<td style="padding: 16px; border-bottom: 1px solid #D9D5CA">{{r.ask}}</td>
+<td class="m" style="padding: 16px; border-bottom: 1px solid #D9D5CA; font-size: 12.5px; line-height: 20px; color: #4A4740; white-space: pre-wrap">{{r.aql}}</td>
+<td style="padding: 16px; border-bottom: 1px solid #D9D5CA"><span class="m" style="padding: 2px 8px; border: 1px solid {{r.fg}}; color: {{r.fg}}; font-size: 12px; font-weight: 500">{{r.d}}</span></td>
+<td class="m" style="padding: 16px; border-bottom: 1px solid #D9D5CA; font-size: 12.5px; line-height: 20px; white-space: pre-wrap">{{r.out}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+<span class="m" style="font-size: 12px; color: #77736A">Illustrative. Run it yourself: make demo.</span>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; border-bottom: 1px solid #D9D5CA">
+<div style="flex: 1 1 380px; min-width: 0; padding: 64px 28px; display: flex; flex-direction: column; gap: 14px; border-right: 1px solid #D9D5CA">
+<span class="m" style="font-size: 12px; color: {{accent}}">§2 · WHY ROLES AREN'T ENOUGH</span>
+<h2 class="s" style="margin: 0; font-size: 36px; line-height: 42px; font-weight: 500">A role is a standing permission. A grant is one answer.</h2>
+<p style="margin: 0; color: #4A4740">Keep your database roles and IAM. They decide who may connect. VaultKit decides what a specific question may return, and remembers why it was asked.</p>
+</div>
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column">
+<div style="padding: 28px; border-bottom: 1px solid #D9D5CA; display: flex; flex-direction: column; gap: 8px">
+<span class="m" style="font-size: 11.5px; color: #77736A">database role</span>
+<code class="m" style="font-size: 14px">GRANT SELECT ON payments TO agent_reader;</code>
+<span style="font-size: 14px; color: #4A4740">Every column, every row, any time range, until someone revokes it. No record of why.</span>
+</div>
+<div style="padding: 28px; display: flex; flex-direction: column; gap: 8px; background: #FBFAF6">
+<span class="m" style="font-size: 11.5px; color: {{accent}}">vaultkit grant</span>
+<code class="m" style="font-size: 14px; white-space: pre-wrap">payments{id, amount, status, customer_email:masked}
+ where status = failed, last 24h · INC-123 · ttl 2h</code>
+<span style="font-size: 14px; color: #4A4740">Bound to this exact query. Approved by Ada and recorded. Masking still applies. Expires on its own, or the moment the policy changes.</span>
+</div>
+</div>
+</section>
+
+<section style="padding: 64px 28px; border-bottom: 1px solid #D9D5CA; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 10px; max-width: 640px">
+<span class="m" style="font-size: 12px; color: {{accent}}">§3 · HOW IT FITS</span>
+<h2 class="s" style="margin: 0; font-size: 36px; line-height: 42px; font-weight: 500">Configure it from the terminal. Review it in a pull request.</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; border: 1px solid #D9D5CA">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="3">
+<div style="flex: 1 1 300px; min-width: 0; padding: 22px; border-right: 1px solid #D9D5CA; display: flex; flex-direction: column; gap: 10px">
+<span class="m" style="font-size: 12px; color: #77736A">{{s.n}}</span>
+<span style="font-weight: 600">{{s.title}}</span>
+<span style="font-size: 14px; color: #4A4740">{{s.note}}</span>
+<pre class="m" style="margin: 0; padding: 12px 14px; background: #1B1A17; color: #E9E6DD; font-size: 12.5px; line-height: 20px; white-space: pre-wrap">{{s.code}}</pre>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="partner" style="padding: 80px 28px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end; justify-content: space-between; border-bottom: 1px solid #1B1A17">
+<div style="flex: 1 1 520px; display: flex; flex-direction: column; gap: 14px; max-width: 660px">
+<span class="m" style="font-size: 12px; color: {{accent}}">§4 · DESIGN PARTNERS</span>
+<h2 class="s" style="margin: 0; font-size: 44px; line-height: 50px; font-weight: 500">Running agents on production data? <em style="font-weight: 400">Let's talk.</em></h2>
+<p style="margin: 0; color: #4A4740">A small number of teams, hands-on setup with the founder, and a direct say in the roadmap.</p>
+</div>
+<a href="#" style="padding: 14px 22px; background: {{accent}}; color: #FFFFFF; font-weight: 500; text-decoration: none">Become a design partner</a>
+</section>
+
+<footer class="m" style="padding: 20px 28px 40px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; font-size: 12px; color: #77736A">
+<span>vaultkit · founders@vaultkit.io</span>
+<span style="display: flex; gap: 18px"><a class="lk" href="#">docs</a><a class="lk" href="#">github</a><a class="lk" href="#">agent readiness index</a></span>
+</footer>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C2410C","options":["#C2410C","#1D4ED8","#15803D","#1B1A17"]},"$preview":{"width":1440,"height":3300}}'>
+class Component extends DCLogic {
+renderVals() {
+var accent = this.props.accent ?? '#C2410C';
+return {
+accent: accent,
+rows: [
+{ ask: 'How many payments failed in the last 15 minutes?', aql: 'payments · aggregate\ncount(*) where status = failed\nrange now-15m', d: 'ALLOW', fg: '#15803D', out: '{ "count": 142 }' },
+{ ask: 'Which customers were affected? Show their emails.', aql: 'customers · read\nfields id, email\nwhere id in (failed, 15m)', d: 'MASK', fg: '#1D4ED8', out: 'cus_8812  m***@acme.io\ncus_8790  j***@globex.com\n… 40 rows' },
+{ ask: 'Pull the full payment records for those customers.', aql: 'payments · read\nfields id, amount, card_last4, email\nwhere status = failed', d: 'APPROVAL', fg: '#B45309', out: 'held for data_owner.\nada approves → this exact\nquery runs, for 1h.' }
+],
+steps: [
+{ n: '01', title: 'Connect a datasource', note: 'VaultKit holds the credential and runs queries next to your data.', code: '$ vkit datasource add --id prod_db …\n$ vkit scan' },
+{ n: '02', title: 'Write policy as code', note: 'Reviewed like any change, deployed pinned to a commit.', code: '# policies/payments.yaml\nmatch:  { dataset: payments }\naction: require_approval\napprover_role: data_owner' },
+{ n: '03', title: 'Point your agents at it', note: 'MCP, Python SDK or CLI. No database password in the agent.', code: '"vaultkit": {\n  "command": "vaultkit-mcp",\n  "env": { "VAULTKIT_TOKEN": "…" }\n}' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

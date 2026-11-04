@@ -7,6 +7,7 @@ import { siteConfig } from "@/lib/config"
 import { hasErrors, validateLead, type LeadErrors, type LeadInput } from "@/lib/lead"
 import { Button } from "@/components/ui/Button"
 import { TextArea, TextField } from "@/components/ui/Field"
+import { Marker } from "@/components/ui/Marker"
 import { UseCaseChips } from "./UseCaseChips"
 
 const FIELD_ORDER = ["email", "company", "role", "notes"] as const
@@ -50,9 +51,10 @@ export function DesignPartnerForm({ onSent }: { onSent: () => void }) {
 
   return (
     <form ref={formRef} noValidate onSubmit={handleSubmit} className="flex flex-col gap-5 p-6 sm:p-8">
-      <div className="flex flex-col gap-1.5 pr-8">
-        <Dialog.Title className="m-0 text-2xl leading-[30px] font-bold tracking-[-0.01em]">{copy.title}</Dialog.Title>
-        <p className="m-0 text-ink-muted">{copy.intro}</p>
+      <div className="flex flex-col gap-2 pr-10">
+        <Marker>{copy.marker}</Marker>
+        <Dialog.Title className="m-0 font-serif text-title font-medium">{copy.title}</Dialog.Title>
+        <p className="m-0 text-ink-soft">{copy.intro}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -70,7 +72,7 @@ export function DesignPartnerForm({ onSent }: { onSent: () => void }) {
       </div>
 
       {status === "error" && (
-        <p role="alert" className="m-0 rounded-control bg-deny-tint px-3 py-2.5 text-deny">
+        <p role="alert" className="m-0 border border-deny px-3 py-2.5 text-deny">
           {copy.error}{" "}
           <a className="font-semibold underline" href={`mailto:${siteConfig.contactEmail}`}>
             {siteConfig.contactEmail}
@@ -80,8 +82,8 @@ export function DesignPartnerForm({ onSent }: { onSent: () => void }) {
       )}
 
       <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-        <p className="m-0 max-w-[300px] text-xs text-ink-subtle">{copy.privacy}</p>
-        <Button type="submit" loading={status === "pending"}>
+        <p className="m-0 max-w-[300px] font-mono text-meta text-muted">{copy.privacy}</p>
+        <Button type="submit" variant="accent" loading={status === "pending"}>
           {status === "pending" ? copy.pending : copy.submit}
         </Button>
       </div>

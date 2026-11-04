@@ -24,9 +24,9 @@ npm run dev
 
 - `content/` — all copy. Edit text here, not in components.
 - `lib/config.ts` — external links from env. An unset link hides its CTA.
-- `app/globals.css` — design tokens (colors, type scale, radii, spacing).
-- `components/ui/` — primitives: Button, Container, Section, Card, Badge, CodeBlock, Logo, Field.
-- `components/landing/` — page sections and the design partner dialog.
+- `app/tokens.css` — design tokens (colors, fonts, type scale, spacing) for direction B. Tailwind turns them into utilities and plain `--color-*` / `--text-*` CSS variables. Spec: `docs/design/landing-direction-b/`.
+- `components/ui/` — primitives: Button, Frame, Marker, SectionHeading, CodeBlock, Logo, Field.
+- `components/landing/` — page sections (Header, Hero, DecisionTable, RoleVsGrant, HowItFits, PartnerSection, Footer) and the design partner dialog.
 - `app/api/design-partner/route.ts` — validates and stores design partner leads.
 
 ## Design partner leads

@@ -38,11 +38,11 @@ export function DesignPartnerDialog({ open, onOpenChange, returnFocusTo }: Desig
             event.preventDefault()
             returnFocusTo.current?.focus()
           }}
-          className="fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-32px)] w-[calc(100%-32px)] max-w-[560px] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-card bg-paper text-small text-ink shadow-dialog"
+          className="fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-32px)] w-[calc(100%-32px)] max-w-[560px] -translate-x-1/2 -translate-y-1/2 overflow-y-auto border border-rule-strong bg-paper-raised text-small text-ink"
         >
           <Dialog.Close
             aria-label={copy.close}
-            className="absolute top-4 right-4 flex size-9 cursor-pointer items-center justify-center rounded-control text-ink-muted hover:bg-paper-muted"
+            className="absolute top-3 right-3 flex size-10 cursor-pointer items-center justify-center text-ink-soft hover:bg-paper"
           >
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M6 6l12 12" />

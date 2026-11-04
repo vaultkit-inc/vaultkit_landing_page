@@ -10,6 +10,7 @@ export const useCases: UseCase[] = [
 ]
 
 export const designPartnerForm = {
+  marker: "§4 · Design partners",
   title: "Become a design partner",
   intro: "Tell us a little about your setup. Nnamdi, the founder, replies personally within two business days.",
   fields: {

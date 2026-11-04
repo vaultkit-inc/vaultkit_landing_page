@@ -1,33 +1,49 @@
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { ImageResponse } from "next/og"
-import { hero, meta } from "@/content/landing"
+import { headline, header, hero, meta } from "@/content/landing"
 import { brand } from "@/lib/brand"
 
 export const alt = meta.ogAlt
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
-const interBold = () => readFile(join(process.cwd(), "node_modules/@fontsource/inter/files/inter-latin-700-normal.woff"))
+const font = (pkg: string, file: string) => readFile(join(process.cwd(), "node_modules/@fontsource", pkg, "files", file))
 
 // Rendered once at build time, like the page.
 export default async function OpenGraphImage() {
+  const [serif, serifItalic, mono] = await Promise.all([
+    font("ibm-plex-serif", "ibm-plex-serif-latin-500-normal.woff"),
+    font("ibm-plex-serif", "ibm-plex-serif-latin-400-italic.woff"),
+    font("ibm-plex-mono", "ibm-plex-mono-latin-400-normal.woff"),
+  ])
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 80, background: brand.night, color: brand.white, fontFamily: "Inter" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <div style={{ width: 72, height: 72, borderRadius: 18, background: brand.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="44" height="44" viewBox="0 0 64 64" fill="none" stroke={brand.white} strokeLinecap="round" strokeLinejoin="round">
+      <div style={{ width: "100%", height: "100%", display: "flex", background: brand.paper, color: brand.ink, padding: "0 60px" }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "56px 48px", borderLeft: `1px solid ${brand.rule}`, borderRight: `1px solid ${brand.rule}` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, fontFamily: "Plex Mono", fontSize: 24 }}>
+            <svg width="36" height="36" viewBox="0 0 64 64" fill="none" stroke={brand.ink} strokeLinecap="round" strokeLinejoin="round">
               <path d="M10 11 L32 53 L54 11" strokeWidth="9" />
               <path d="M22 11 L32 31 L42 11" strokeWidth="5" />
             </svg>
+            <span>VaultKit</span>
+            <span style={{ color: brand.muted }}>{header.version}</span>
           </div>
-          <div style={{ fontSize: 40, fontWeight: 700 }}>VaultKit</div>
+          <div style={{ display: "flex", flexDirection: "column", fontFamily: "Plex Serif", fontSize: 84, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
+            <span style={{ fontStyle: "normal", fontWeight: 500 }}>{headline.lead}</span>
+            <span style={{ fontStyle: "italic", fontWeight: 400 }}>{headline.emphasis}</span>
+          </div>
+          <div style={{ display: "flex", fontFamily: "Plex Mono", fontSize: 24, color: brand.accent }}>{hero.marker.toUpperCase()}</div>
         </div>
-        <div style={{ display: "flex", fontSize: 64, lineHeight: 1.1, fontWeight: 700, letterSpacing: "-0.03em", maxWidth: 1000 }}>{hero.heading}</div>
-        <div style={{ display: "flex", fontSize: 28, color: brand.nightMuted }}>{hero.footnote}</div>
       </div>
     ),
-    { ...size, fonts: [{ name: "Inter", data: await interBold(), weight: 700 }] },
+    {
+      ...size,
+      fonts: [
+        { name: "Plex Serif", data: serif, weight: 500, style: "normal" },
+        { name: "Plex Serif", data: serifItalic, weight: 400, style: "italic" },
+        { name: "Plex Mono", data: mono, weight: 400, style: "normal" },
+      ],
+    },
   )
 }
