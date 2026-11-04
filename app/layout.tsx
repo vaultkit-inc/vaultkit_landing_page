@@ -21,12 +21,13 @@ export const metadata: Metadata = {
   title: meta.title,
   description: meta.description,
   alternates: { canonical: "/" },
+  // Bump ?v= when the icons change: browsers and Cloudflare keep favicons for a long time.
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico?v=2", sizes: "48x48" },
+      { url: "/favicon.svg?v=2", type: "image/svg+xml" },
     ],
-    apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
+    apple: { url: "/apple-touch-icon.png?v=2", sizes: "180x180" },
   },
   openGraph: {
     type: "website",
